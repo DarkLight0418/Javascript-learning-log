@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import BoardForm from "./components/BoardForm";
+import BoardItem from "./components/BoardItem";
+import BoardList from "./components/BoardList";
+import './App.css'
 
 function App() {
   const [posts, setPosts] = useState([]);
