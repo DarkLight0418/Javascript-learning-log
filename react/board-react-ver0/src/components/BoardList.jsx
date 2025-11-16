@@ -1,7 +1,7 @@
 import BoardItem from "./BoardItem";
 
 function BoardList({ posts, onDelete, onUpdate }) {
-  if (posts.length === 0) return <p>게시글이 없습니다...</p>
+  if (posts.length === 0) return <p>게시글이 없습니다 ㅜㅜ</p>
 
   return (
     <table border="1" style={{ width: "100%", marginTop: "1rem" }}>
