@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "@mui/material"
 
 function BoardItem({ post, index, onDelete, onUpdate }) {
 
@@ -48,8 +49,8 @@ function BoardItem({ post, index, onDelete, onUpdate }) {
           </>
         ) : (
           <>
-            <button onClick={() => setIsEditing(true)}>수정</button>
-            <button onClick={() => onDelete(post.id)}>삭제</button>
+            <Button variant="text" onClick={() => setIsEditing(true)}>수정</Button>
+            <Button variant="outlined" onClick={() => onDelete(post.id)}>삭제</Button>
           </>
         )}
       </td>

@@ -7,8 +7,16 @@ import './App.css'
 
 function App() {
   const [posts, setPosts] = useState([]);
+  const BASE_URL = "http://localhost:8080/api/posts";
 
+  useEffect(() => {
+    fetch(BASE_URL)
+      .then((res) => res.json())
+      .then(setPosts)
+      .catch((err) => console.error(err))
+  }, [])
 
+  /*
   useEffect(() => {
     const saved = localStorage.getItem("posts");
     if (saved) setPosts(JSON.parse(saved));
@@ -17,19 +25,36 @@ function App() {
   useEffect(() => {
     localStorage.setItem("posts", JSON.stringify(posts));
   }, [posts])
-
+*/
   const addPost = (newPost) => {
-    setPosts([...posts, { id: Date.now(), ...newPost }])
+    // setPosts([...posts, { id: Date.now(), ...newPost }])
+    fetch(BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newPost),
+    })
+      .then((res) => res.json())
+      .then((data) => setPosts([...posts, data]))
   }
 
   const deletePost = (id) => {
-    setPosts(posts.filter((post) => post.id !== id))
+    fetch(`${BASE_URL}/${id}`, { method: "DELETE" }).then(() =>
+      setPosts(posts.filter((p) => p.id !== id)))
+    // setPosts(posts.filter((post) => post.id !== id))
   }
 
   const updatePost = (id, updatePost) => {
-    setPosts(
-      posts.map((p) => (p.id === id ? { ...p, ...updatePost } : p))
-    )
+    fetch(`${BASE_URL}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatePost),
+    })
+      .then((res) => res.json())
+      .then((data) =>
+        setPosts(
+          // posts.map((p) => (p.id === id ? { ...p, ...updatePost } : p))
+          posts.map((p) => (p.id === id ? data : p)))
+      )
   }
 
   return (
