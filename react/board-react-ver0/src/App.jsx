@@ -3,11 +3,39 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import BoardForm from "./components/BoardForm";
 import BoardItem from "./components/BoardItem";
 import BoardList from "./components/BoardList";
+import LoginForm from "./components/LoginForm";
 import './App.css'
+import { Button } from "@mui/material";
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const BASE_URL = "http://localhost:8080/api/posts";
+  const [user, setUser] = useState(null)
+  const [posts, setPosts] = useState([])
+  const BASE_URL = "http://localhost:8080/api/posts"
+
+  useEffect(() => {
+    const savedUser = sessionStorage.getItem("user")
+    if (savedUser) {
+      setUser(JSON.parse(savedUser))
+    }
+  }, [])
+
+  const handleLogin = (email, password) => {
+    // NOTE: 지금은 백엔드 연동 전, 프론트 단에서 임시 로그인 구현
+    // 나중에 Spring Boot 로그인 API로 바꿀 수 있음
+    if (email === "test@test.com" && password === "0000") {
+      const userObj = { email, name: "테스트유저" }
+      sessionStorage.setItem("user", JSON.stringify(userObj))
+      setUser(userObj)
+      alert("로그인 성공")
+    } else {
+      alert("이메일 또는 비밀번호가 올바르지 않습니다.")
+    }
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("user")
+    setUser(null)
+  }
 
   useEffect(() => {
     fetch(BASE_URL)
@@ -26,6 +54,7 @@ function App() {
     localStorage.setItem("posts", JSON.stringify(posts));
   }, [posts])
 */
+
   const addPost = (newPost) => {
     // setPosts([...posts, { id: Date.now(), ...newPost }])
     fetch(BASE_URL, {
@@ -59,9 +88,20 @@ function App() {
 
   return (
     <div className="App">
-      <h1>게시판</h1>
-      <BoardForm onAdd={addPost} />
-      <BoardList posts={posts} onDelete={deletePost} onUpdate={updatePost} />
+      {!user ? (
+        < LoginForm onLogin={handleLogin} />
+      ) : (
+        <>
+          <h2>{user.name}님 환영합니다 </h2>
+          <Button onClick={handleLogout} style={{ marginBotton: "20px" }}>
+            로그아웃
+          </Button>
+
+          <h1>게시판</h1>
+          <BoardForm onAdd={addPost} />
+          <BoardList posts={posts} onDelete={deletePost} onUpdate={updatePost} />
+        </>
+      )}
     </div>
   )
 }
