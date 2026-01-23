@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- Babel CDN -->
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  
+  <script type="text/babel">
+    function HelloButton(props) {
+      return <button onClick={() => alert('hello')}>Click!</button>
+    }
+
+    const app = (
+      <div>
+        <HelloButton />
+        <HelloButton />
+        <HelloButton />
+        <HelloButton />
+      </div>
+    )
+
+    const domContainer = document.querySelector('#root');
+    const root = ReactDOM.createRoot(domContainer);
+    root.render(app);
+  </script>
+</body>
+</html>
