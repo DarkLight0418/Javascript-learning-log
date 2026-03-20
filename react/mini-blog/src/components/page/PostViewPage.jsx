@@ -24,4 +24,24 @@ const Container = styled.div`
     }
   }
 `
+const PostContainer = styled.div`
+  padding: 8px 16px;
+  border: 1px solid grey;
+  border-radius: 8px;
+`
 
+const TitleText = styled.p`
+  font-size: 28px;
+  font-weight: 500;
+`
+
+const ContentText = styled.p`
+  font-size: 20px;
+  line-height: 32px;
+  white-space: pre-wrap;
+`
+
+const CommentLabel = styled.p`
+  font-size: 16px;
+  font-weight: 500;
+`
